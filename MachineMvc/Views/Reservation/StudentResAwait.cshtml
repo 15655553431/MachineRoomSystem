@@ -1,0 +1,202 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/static/MyStyle.css"  />
+<!--[if IE 6]>
+<script type="text/javascript" src="~/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>预约管理 等待审核</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 预约管理 <span class="c-gray en">&gt;</span> 等待审核 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c" style="margin-bottom:15px"> 
+        <form id="searchform">
+            <input type="hidden" value="1" id="PageIndex" name="PageIndex">
+            <input type="hidden" value="5" id="PageSize" name="PageSize">
+            <input type="text" class="input-text" style="width:15%" placeholder="学号查询" id="SNumber" name="SNumber" value="">
+		    <input type="text" class="input-text" style="width:15%" placeholder="电脑编号查询" id="CNumber" name="CNumber" value="">
+            <input type="text" class="input-text" style="width:15%" placeholder="管理员姓名查询" id="UName" name="UName" value="">
+		    <a class="btn btn-success radius" href='javascript:$("#PageIndex").val(1);pageajax();'><i class="Hui-iconfont">&#xe665;</i> 查预约</a>
+        </form>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray"> <span class="l">  
+       <a class="btn btn-primary radius" href="javascript:;" onclick="Reser('确认取消预约吗？');">取消预约</a> 
+	 </span> <span class="r">共有数据：<strong id="listcount">0</strong> 条</span> </div>
+	<table class="table table-border table-bordered table-hover table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="7">等待预约审核信息
+                    <span style="font-size:10px;margin-left:20px;">每页显示：</span>
+                    <select id="pageSizeSelect" onchange="$('#PageIndex').val(1);$('#PageSize').val(this.value);pageajax();">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+				</th>
+                
+			</tr>
+			<tr class="text-c">
+                <th width="20"><input type="checkbox" name="" value=""></th>
+                <th width="40">预约ID</th>
+                <th width="80">学号</th>
+                <th width="100">预约日期</th>
+                <th width="80">电脑编号</th>
+                <th width="80">机房管理员</th>
+			</tr>
+		</thead>
+		<tbody id="pagetbody">
+
+
+		</tbody>
+	</table>
+    <div style="margin-top:10px;">
+       <ul class="page"  id="MyPage"></ul>
+    </div>
+    
+    
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/static/MyPage.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+
+<script type="text/javascript">
+
+    //每页数量，当前页
+    function pageajax() {
+        var tbody = window.document.getElementById("pagetbody");
+        var sumdata = window.document.getElementById("listcount");
+        var nowindex = window.document.getElementById("PageIndex");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Reservation/StudentResAwait",//url
+            data: $('#searchform').serialize(),
+            success: function (data) {
+                var str = "";
+                var reslist = data.Item1;
+
+                for (var i = 0; i < reslist.length; i++) {
+                    str += "<tr class='text-c'>";
+                    str += "<td><input type='checkbox' name='checkBox' value='" + reslist[i].ID + "'></td>";
+                    str += "<td><a onclick=\"admin_role_edit('" + reslist[i].Userinfo.Uname + "预约详情','/Reservation/Details','" + reslist[i].ID + "')\"  >" + reslist[i].ID + "</a></td>";
+                    str += "<td>" + reslist[i].Userinfo.Uname + "</td>";
+                 
+                    str += "<td>" + Num2Date(reslist[i].Sdate, "yyyy-MM-dd") + "</td>";
+                    str += "<td><a onclick=\"admin_role_edit('" + reslist[i].Computerinfo.Number + "电脑详情','/Computerinfo/StudentDetails','" + reslist[i].Computerinfo.ID + "')\"  >" + reslist[i].Computerinfo.Number + "</a></td>";
+                    str += "<td><a onclick=\"admin_role_edit('" + reslist[i].Computerinfo.Machineroom.Userinfo.Uname + "管理员','/Userinfo/UserinfoDetails','" + reslist[i].Computerinfo.Machineroom.Userinfo.ID + "')\"  >" + reslist[i].Computerinfo.Machineroom.Userinfo.Uname + "</a></td>";
+
+                    str += "</tr>";
+                }
+                tbody.innerHTML = str;
+                sumdata.innerText = data.Item2.TotalItems;
+                nowindex.value = data.Item2.PageIndex;
+                initMypage(data.Item2.TotalItems, data.Item2.PageIndex, data.Item2.PageSize);
+
+            },
+            error: function (err) {
+
+            }
+
+        });
+
+    }
+
+
+    var GG = {
+        "kk": function (pageindex) {
+            var indexkey = $('#PageIndex');
+            var nowindex = indexkey.val();
+            if (nowindex != pageindex) {
+                indexkey.val(pageindex);
+                pageajax();
+            }
+        }
+    }
+
+
+    function initMypage(count, current, pagecount) {
+        //总数量，当前显示页，每页显示数，输出当前页函数
+        $("#MyPage").initPage(count, current, pagecount, GG.kk);
+    }
+
+    $(function () {
+        pageajax();
+    });
+
+
+
+    /*编辑*/
+    function admin_role_edit(title, url, id, w, h) {
+        layer_show(title, url + "/" + id, w, h);
+    }
+
+
+    /*批量审核*/
+    function Reser(msg) {
+
+        layer.confirm(msg, function (index) {
+            var number = '';
+            $('input:checkbox[name=checkBox]:checked').each(function (k) {
+                if (k == 0) {
+                    number = $(this).val();
+                } else {
+                    number += ',' + $(this).val();
+                }
+            })
+
+            if (number == '') {
+                layer.msg('请先选择需要取消预约的信息！', { icon: 1, time: 1500 });
+                return;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: '/Reservation/DeleteRes',
+                data: { checkid: number },
+                dataType: 'json',
+                success: function (data) {
+                    if (data == "ok") {
+                        layer.msg('取消预约成功！', { icon: 1, time: 1500 });
+                        $('#PageIndex').val(1);
+                        pageajax();
+                    }
+                    else {
+                        layer.msg('取消失败！请稍后重试！', { icon: 2, time: 1500 });
+                    }
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+
+</script>
+</body>
+</html>

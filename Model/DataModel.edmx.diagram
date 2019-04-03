@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="f6c1ce2d3c4f4a65a851d0caee4672b0" Name="关系图1" ZoomLevel="93" >
+        <EntityTypeShape EntityType="DataModel.Userinfo" Width="1.5" PointX="0.5" PointY="0.5" />
+        <EntityTypeShape EntityType="DataModel.Newsinfo" Width="1.5" PointX="2.5" PointY="1" />
+        <EntityTypeShape EntityType="DataModel.Machineroom" Width="1.5" PointX="4.25" PointY="1.125" />
+        <EntityTypeShape EntityType="DataModel.Computerinfo" Width="1.5" PointX="6.125" PointY="1" />
+        <AssociationConnector Association="DataModel.MachineroomComputerinfo" />
+        <EntityTypeShape EntityType="DataModel.Reservation" Width="1.5" PointX="8.25" PointY="1.75" />
+        <AssociationConnector Association="DataModel.ComputerinfoReservation" />
+        <AssociationConnector Association="DataModel.UserinfoNewsinfo" />
+        <AssociationConnector Association="DataModel.UserinfoMachineroom" />
+        <AssociationConnector Association="DataModel.UserinfoReservation" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,302 @@
+﻿@model Model.Computerinfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>更新电脑- 电脑信息更新</title>
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+        @Html.HiddenFor(model => model.ID)
+        @Html.HiddenFor(model => model.Status)
+
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>电脑编号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Number" placeholder="" id="Number" name="Number">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所在排：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Row" placeholder="" id="Row" name="Row">
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所在列：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Col" placeholder="" id="Col" name="Col">
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>电脑品牌：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Brand" placeholder="" id="Brand" name="Brand">
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>具体型号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Model" placeholder="" id="Model" name="Model">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>操作系统：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.System" placeholder="" id="System" name="System">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>生产日期：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss' })" class="input-text Wdate" value="@Model.Facturedate" placeholder="" id="Facturedate" name="Facturedate">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>RN编号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.RN" placeholder="" id="RN" name="RN">
+		</div>
+	</div>
+	
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>MAC地址：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.MAC" placeholder="" id="MAC" name="MAC">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>IP地址：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.IP" placeholder="" id="IP" name="IP">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>处理器型号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.CPU" placeholder="" id="CPU" name="CPU">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>内存信息：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Memory" placeholder="" id="Memory" name="Memory">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>硬盘信息：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Hard" placeholder="" id="Hard" name="Hard">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>费用(元/时)：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<input type="text" class="input-text" value="@Model.Money" placeholder="" id="Money" name="Money">
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>所属机房：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<select class="select" id="MachineroomID" name="MachineroomID">
+                <option value="@Model.MachineroomID">@Model.Machineroom.Number (机房名:@Model.Machineroom.Name )</option>
+			</select>
+            <div>
+                <label>机房号查询：</label>
+                <input type="text" onchange="getselect();"  class="input-text" style="width:50%" value="" placeholder="" id="machinenumber" name="machinenumber" >
+            </div>
+		</div>
+	</div>
+
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">备注：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<textarea name="Other" cols="" rows="" class="textarea"  placeholder="说点什么...200个字符以内" dragonfly="true" onKeyUp="$.Huitextarealength(this,200)" id="Other" >@Model.Other</textarea>
+			
+		</div>
+	</div>
+	<div class="row cl">
+		<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
+			<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+		</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="~/lib/My97DatePicker/4.8/WdatePicker.js"></script> 
+<script type="text/javascript" src="~/lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="~/lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="~/lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+<script type="text/javascript">
+    function getselect() {
+        var select = window.document.getElementById("MachineroomID");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Machineroom/Getmachineroom",//url
+            data: { Number: $('#machinenumber').val() },
+            success: function (data) {
+                select.options.length = 0;
+                for (var i = 0; data.length; i++) {
+                    select.add(new Option(data[i].Number + " ->(机房名：" + data[i].Name + ")", data[i].ID));
+                }
+            },
+            error: function (data) {
+            }
+
+        });
+    }
+
+
+    $(function () {
+       
+        $('.skin-minimal input').iCheck({
+            checkboxClass: 'icheckbox-blue',
+            radioClass: 'iradio-blue',
+            increaseArea: '20%'
+        });
+
+        $("#form-admin-add").validate({
+            rules: {
+                Row: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    max: 99
+                },
+                Col: {
+                    required: true,
+                    number: true,
+                    min: 0,
+                    max: 99
+                },
+                Number: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 16
+                },
+                Brand: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 20
+                },
+                Model: {
+                    required: true,
+                    minlength: 1,
+                    maxlength: 30
+                },
+                System: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30
+                },
+                RN: {
+                    required: true,
+                    minlength: 5,
+                    maxlength: 15
+                },
+                IP: {
+                    required: true,
+                    minlength: 7,
+                    maxlength: 30
+                },
+                MAC: {
+                    required: true,
+                    minlength: 12,
+                    maxlength: 17
+                },
+                CPU: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30
+                },
+                Memory: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30
+                },
+                Hard: {
+                    required: true,
+                    minlength: 2,
+                    maxlength: 30
+                },
+                Money: {
+                    required: true,
+                    number: true,
+                    min: 0.01,
+                    max: 99.00
+                },
+                Facturedate: {
+                    required: true,
+                    date: true
+                }
+
+
+
+
+            },
+            onkeyup: false,
+            focusCleanup: true,
+            success: "valid",
+            submitHandler: function (form) {
+                $(form).ajaxSubmit({
+                    type: 'post',
+                    url: "/Computerinfo/Edit",
+                    success: function (data) {
+                        layer.msg('添加成功!', { icon: 1, time: 1000 });
+                    },
+                    error: function (XmlHttpRequest, textStatus, errorThrown) {
+                        layer.msg('error!', { icon: 1, time: 1000 });
+                    }
+                });
+                var index = parent.layer.getFrameIndex(window.name);
+                parent.location.reload(); // 父页面刷新
+                parent.$('.btn-refresh').click();
+                parent.layer.close(index);
+            }
+        });
+    });
+</script> 
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

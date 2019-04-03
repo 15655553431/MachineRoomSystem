@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/static/MyStyle.css"  />
+<!--[if IE 6]>
+<script type="text/javascript" src="~/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>电脑预约</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 我的桌面 <span class="c-gray en">&gt;</span> 电脑预约 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c" style="margin-bottom:15px"> 
+        <form id="searchform">
+            <input type="hidden" value="1" id="PageIndex" name="PageIndex">
+            <select id="PageSize" name="PageSize" class="input-text" style="width:10%;" onchange="$('#PageIndex').val(1);">
+                <option value="3">每页3排</option>
+                <option value="6">每页6排</option>
+                <option value="10">每页10排</option>
+                <option value="15">每页15排</option>
+            </select>
+            <select class="input-text" id="MachineroomID" name="MachineroomID" style="width:25%;"></select>
+
+            <input type="text" onchange="getselect();"  class="input-text" style="width:15%;margin-top:-5px;" placeholder="机房模糊查询" id="MachineSearch" name="MachineSearch" value=""/>
+            <a class="btn btn-success radius" style="margin-top:-5px;" href='javascript:$("#PageIndex").val(1);pageajax();'><i class="Hui-iconfont">&#xe665;</i> 显示布局</a>
+            
+        </form>
+        
+	</div>
+
+	<table class="table table-border table-bordered table-hover table-bg">
+
+		<thead id="tablethead">
+			
+		</thead>
+		<tbody id="pagetbody">
+
+
+		</tbody>
+	</table>
+
+    <div style="margin-top:10px;">
+       <ul class="page"  id="MyPage"></ul>
+    </div>
+    
+    
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/static/MyPage.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+
+<script type="text/javascript">
+
+    function getselect() {
+        var select = window.document.getElementById("MachineroomID");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Machineroom/Getmachineroom",//url
+            data: { Search: $('#MachineSearch').val() },
+            success: function (data) {
+                select.options.length = 0;
+                for (var i = 0; data.length; i++) {
+                    select.add(new Option(data[i].Number + " ->(机房名：" + data[i].Name + ")", data[i].ID));
+                }
+            },
+            error: function (data) {
+            }
+
+        });
+    }
+
+
+
+
+
+    //每页数量，当前页
+    function pageajax() {
+        var thead = window.document.getElementById("tablethead");
+        var tbody = window.document.getElementById("pagetbody");
+        var nowindex = window.document.getElementById("PageIndex");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Computerinfo/ShowLayout",//url
+            data: $('#searchform').serialize(),
+            success: function (data) {
+                if (data == "null") {
+                    thead.innerHTML = "<tr class='text-c'><th>该机房暂无电脑！</th></tr>";
+                    tbody.innerHTML = "";
+                    initMypage(0, 1, 3);
+                }
+                else {
+
+                    var mroom = data.Item1;
+                    var Computerlist = data.Item3;
+
+                    var thstr = "";
+                    thstr += "<tr class='text-c'>";
+                    for (var i = 1; i <= mroom.Crow; i++) {
+                        thstr += "<th width='100'>第" + i + "列</th>";
+                    }
+                    thstr += "</tr>";
+
+
+                    var tbodystr = "";
+                    var cflag = 0;
+
+                    var starti = (data.Item2.PageIndex - 1) * data.Item2.PageSize + 1;
+                    var endi = starti + data.Item2.PageSize - 1;
+
+                    if (starti > mroom.Ccol) {
+                        starti = 1;
+                        endi = 3;
+                    }
+                    endi = endi > mroom.Ccol ? mroom.Ccol : endi;
+
+                    for (var i = starti; i <= endi; i++) {
+                        tbodystr += "<tr class='text-c'>";
+
+                        for (var j = 0; j < mroom.Crow; j++) {
+                            var computer = Computerlist[cflag++];
+                            tbodystr += "<td>";
+
+                            tbodystr += "<div class='mycdiv1'><img width=\"112\" class='mycimg' src=\"/static/computer.png\" />";
+
+                            tbodystr += "<span class='mycspan'>" + computer.Number + "</span>";
+
+                            tbodystr += "</div><div class='mycdiv2'>";
+                            if (computer.ID == 0) {
+                                tbodystr += "<a class='btn btn-danger radius' style='width:112px;'>不可预约</a>";
+                            }
+                            else {
+                                tbodystr += "<a class='btn btn-success radius' style='width=\"64\";margin-right:2px;' onclick=\"admin_role_edit('" + computer.Number + "  电脑详情','/Computerinfo/StudentDetails','" + computer.ID + "')\">详情</a>";
+
+                                tbodystr += "<a class='btn btn-primary radius' style='width=\"64\";margin-left:2px;'  onclick=\"admin_role_edit('" + computer.Number + "  电脑预约','/Computerinfo/StudentRes','" + computer.ID + "')\">预约</a>";
+                            }
+
+                            tbodystr += "</div>";
+                            tbodystr += "</td>";
+                        }
+                        tbodystr += "</tr>";
+
+                        tbodystr += "</tr>";
+                    }
+
+                    thead.innerHTML = thstr;
+                    tbody.innerHTML = tbodystr;
+                    nowindex.value = data.Item2.PageIndex;
+                    initMypage(data.Item2.TotalItems, data.Item2.PageIndex, data.Item2.PageSize);
+                }
+
+            },
+            error: function (err) {
+
+            }
+
+        });
+
+    }
+
+
+    var GG = {
+        "kk": function (pageindex) {
+            var indexkey = $('#PageIndex');
+            var nowindex = indexkey.val();
+            if (nowindex != pageindex) {
+                indexkey.val(pageindex);
+                pageajax();
+            }
+        }
+    }
+
+
+    function initMypage(count, current, pagecount) {
+        //总数量，当前显示页，每页显示数，输出当前页函数
+        $("#MyPage").initPage(count, current, pagecount, GG.kk);
+    }
+
+    $(function () {
+        getselect();
+    });
+
+    /*编辑*/
+    function admin_role_edit(title, url, id, w, h) {
+        layer_show(title, url + "/" + id, w, h);
+    }
+
+</script>
+</body>
+</html>
+

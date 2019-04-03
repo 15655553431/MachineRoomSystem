@@ -1,0 +1,500 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DataModelStoreContainer">
+    <EntitySet Name="Userinfo" EntityType="DataModel.Store.Userinfo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Newsinfo" EntityType="DataModel.Store.Newsinfo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Machineroom" EntityType="DataModel.Store.Machineroom" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Computerinfo" EntityType="DataModel.Store.Computerinfo" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Reservation" EntityType="DataModel.Store.Reservation" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="MachineroomComputerinfo" Association="DataModel.Store.MachineroomComputerinfo">
+      <End Role="Machineroom" EntitySet="Machineroom" />
+      <End Role="Computerinfo" EntitySet="Computerinfo" />
+    </AssociationSet>
+    <AssociationSet Name="ComputerinfoReservation" Association="DataModel.Store.ComputerinfoReservation">
+      <End Role="Computerinfo" EntitySet="Computerinfo" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="UserinfoNewsinfo" Association="DataModel.Store.UserinfoNewsinfo">
+      <End Role="Userinfo" EntitySet="Userinfo" />
+      <End Role="Newsinfo" EntitySet="Newsinfo" />
+    </AssociationSet>
+    <AssociationSet Name="UserinfoMachineroom" Association="DataModel.Store.UserinfoMachineroom">
+      <End Role="Userinfo" EntitySet="Userinfo" />
+      <End Role="Machineroom" EntitySet="Machineroom" />
+    </AssociationSet>
+    <AssociationSet Name="UserinfoReservation" Association="DataModel.Store.UserinfoReservation">
+      <End Role="Userinfo" EntitySet="Userinfo" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Userinfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar" Nullable="false" DefaultValue="" MaxLength="32" />
+    <Property Name="Uname" Type="nvarchar" Nullable="false" DefaultValue="" MaxLength="32" />
+    <Property Name="Pwd" Type="nvarchar" Nullable="false" DefaultValue="123456" MaxLength="32" />
+    <Property Name="Logindate" Type="datetime" Nullable="true" />
+    <Property Name="Signdate" Type="datetime" Nullable="true" />
+    <Property Name="Number" Type="nvarchar" Nullable="true" DefaultValue="" MaxLength="32" />
+    <Property Name="Phone" Type="nvarchar" Nullable="true" MaxLength="16" />
+    <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Status" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="Type" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="Other" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Delflag" Type="int" Nullable="true" DefaultValue="0" />
+  </EntityType>
+  <EntityType Name="Newsinfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Inputdate" Type="datetime" Nullable="true" />
+    <Property Name="Showtime" Type="datetime" Nullable="false" />
+    <Property Name="Endtime" Type="datetime" Nullable="true" />
+    <Property Name="Type" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="Title" Type="nvarchar" Nullable="false" DefaultValue="未命名标题" MaxLength="100" />
+    <Property Name="Content" Type="nvarchar" Nullable="false" DefaultValue="无内容。" MaxLength="1000" />
+    <Property Name="Other" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Delflag" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="UserinfoID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Machineroom">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar" Nullable="false" MaxLength="16" />
+    <Property Name="Address" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Name" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="Count" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="Area" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="Crow" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="Ccol" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="IPinfo" Type="nvarchar" Nullable="true" DefaultValue="127.0.0.0" MaxLength="100" />
+    <Property Name="Other" Type="nvarchar" Nullable="true" MaxLength="100" />
+    <Property Name="Status" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="Delflag" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="UserinfoID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Computerinfo">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar" Nullable="true" MaxLength="20" />
+    <Property Name="Row" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="Col" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="RN" Type="nvarchar" Nullable="true" MaxLength="32" />
+    <Property Name="Brand" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Model" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="Facturedate" Type="datetime" Nullable="true" />
+    <Property Name="MAC" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="IP" Type="nvarchar" Nullable="true" MaxLength="50" />
+    <Property Name="CPU" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="Memory" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="Hard" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="System" Type="nvarchar" Nullable="true" MaxLength="64" />
+    <Property Name="Status" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="Money" Type="decimal" Nullable="true" DefaultValue="0" Precision="18" Scale="0" />
+    <Property Name="Other" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Delflag" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="MachineroomID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Rdate" Type="datetime" Nullable="false" />
+    <Property Name="Sdate" Type="datetime" Nullable="false" />
+    <Property Name="DateFlag" Type="int" Nullable="false" />
+    <Property Name="Edate" Type="datetime" Nullable="false" />
+    <Property Name="Useinfo" Type="nvarchar" Nullable="true" MaxLength="500" />
+    <Property Name="Money" Type="decimal" Nullable="true" DefaultValue="0" Precision="18" Scale="0" />
+    <Property Name="Status" Type="int" Nullable="false" DefaultValue="0" />
+    <Property Name="Other" Type="nvarchar" Nullable="true" MaxLength="200" />
+    <Property Name="Delflag" Type="int" Nullable="true" DefaultValue="0" />
+    <Property Name="ComputerinfoID" Type="int" Nullable="false" />
+    <Property Name="UserinfoID" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="MachineroomComputerinfo">
+    <End Role="Machineroom" Type="DataModel.Store.Machineroom" Multiplicity="1" />
+    <End Role="Computerinfo" Type="DataModel.Store.Computerinfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Machineroom">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Computerinfo">
+        <PropertyRef Name="MachineroomID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ComputerinfoReservation">
+    <End Role="Computerinfo" Type="DataModel.Store.Computerinfo" Multiplicity="1" />
+    <End Role="Reservation" Type="DataModel.Store.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Computerinfo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="ComputerinfoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserinfoNewsinfo">
+    <End Role="Userinfo" Type="DataModel.Store.Userinfo" Multiplicity="1" />
+    <End Role="Newsinfo" Type="DataModel.Store.Newsinfo" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userinfo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Newsinfo">
+        <PropertyRef Name="UserinfoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserinfoMachineroom">
+    <End Role="Userinfo" Type="DataModel.Store.Userinfo" Multiplicity="1" />
+    <End Role="Machineroom" Type="DataModel.Store.Machineroom" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userinfo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Machineroom">
+        <PropertyRef Name="UserinfoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserinfoReservation">
+    <End Role="Userinfo" Type="DataModel.Store.Userinfo" Multiplicity="1" />
+    <End Role="Reservation" Type="DataModel.Store.Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Userinfo">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="UserinfoID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="DataModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Userinfo" EntityType="DataModel.Userinfo" />
+          <EntitySet Name="Newsinfo" EntityType="DataModel.Newsinfo" />
+          <EntitySet Name="Machineroom" EntityType="DataModel.Machineroom" />
+          <EntitySet Name="Computerinfo" EntityType="DataModel.Computerinfo" />
+          <AssociationSet Name="MachineroomComputerinfo" Association="DataModel.MachineroomComputerinfo">
+            <End Role="Machineroom" EntitySet="Machineroom" />
+            <End Role="Computerinfo" EntitySet="Computerinfo" />
+          </AssociationSet>
+          <EntitySet Name="Reservation" EntityType="DataModel.Reservation" />
+          <AssociationSet Name="ComputerinfoReservation" Association="DataModel.ComputerinfoReservation">
+            <End Role="Computerinfo" EntitySet="Computerinfo" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+          <AssociationSet Name="UserinfoNewsinfo" Association="DataModel.UserinfoNewsinfo">
+            <End Role="Userinfo" EntitySet="Userinfo" />
+            <End Role="Newsinfo" EntitySet="Newsinfo" />
+          </AssociationSet>
+          <AssociationSet Name="UserinfoMachineroom" Association="DataModel.UserinfoMachineroom">
+            <End Role="Userinfo" EntitySet="Userinfo" />
+            <End Role="Machineroom" EntitySet="Machineroom" />
+          </AssociationSet>
+          <AssociationSet Name="UserinfoReservation" Association="DataModel.UserinfoReservation">
+            <End Role="Userinfo" EntitySet="Userinfo" />
+            <End Role="Reservation" EntitySet="Reservation" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Userinfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Login" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" annotation:StoreGeneratedPattern="None" DefaultValue="" />
+          <Property Type="String" Name="Uname" Nullable="false" MaxLength="32" Unicode="true" FixedLength="false" DefaultValue="" />
+          <Property Type="String" Name="Pwd" Nullable="false" DefaultValue="123456" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Type="DateTime" Name="Logindate" Nullable="true" Precision="3" />
+          <Property Type="DateTime" Name="Signdate" Nullable="true" Precision="3" />
+          <Property Type="String" Name="Number" Nullable="true" MaxLength="32" Unicode="true" FixedLength="false" DefaultValue="" />
+          <Property Type="String" Name="Phone" Nullable="true" MaxLength="16" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Status" Nullable="true" DefaultValue="0" />
+          <Property Type="Int32" Name="Type" Nullable="true" DefaultValue="0" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Delflag" Nullable="true" DefaultValue="0" />
+        </EntityType>
+        <EntityType Name="Newsinfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Inputdate" Nullable="true" Precision="3" />
+          <Property Type="DateTime" Name="Showtime" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="Endtime" Nullable="true" Precision="3" />
+          <Property Type="Int32" Name="Type" Nullable="true" DefaultValue="0" />
+          <Property Type="String" Name="Title" Nullable="false" DefaultValue="未命名标题" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Content" Nullable="false" DefaultValue="无内容。" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Delflag" Nullable="true" DefaultValue="0" />
+          <NavigationProperty Name="Userinfo" Relationship="DataModel.UserinfoNewsinfo" FromRole="Newsinfo" ToRole="Userinfo" />
+          <Property Type="Int32" Name="UserinfoID" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Machineroom">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Number" Nullable="false" MaxLength="16" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Address" Nullable="true" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Count" Nullable="false" DefaultValue="0" />
+          <Property Type="Int32" Name="Area" Nullable="false" DefaultValue="0" />
+          <Property Type="Int32" Name="Crow" Nullable="false" DefaultValue="0" />
+          <Property Type="Int32" Name="Ccol" Nullable="false" DefaultValue="0" />
+          <Property Type="String" Name="IPinfo" Nullable="true" DefaultValue="127.0.0.0" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Status" Nullable="true" DefaultValue="0" />
+          <Property Type="Int32" Name="Delflag" Nullable="true" DefaultValue="0" />
+          <NavigationProperty Name="Userinfo" Relationship="DataModel.UserinfoMachineroom" FromRole="Machineroom" ToRole="Userinfo" />
+          <Property Type="Int32" Name="UserinfoID" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Computerinfo">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Number" Nullable="true" MaxLength="20" />
+          <Property Type="Int32" Name="Row" Nullable="false" DefaultValue="0" />
+          <Property Type="Int32" Name="Col" Nullable="false" DefaultValue="0" />
+          <Property Type="String" Name="RN" Nullable="true" MaxLength="32" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Brand" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Model" Nullable="true" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Type="DateTime" Name="Facturedate" Nullable="true" Precision="3" />
+          <Property Type="String" Name="MAC" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="IP" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="CPU" Nullable="true" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Memory" Nullable="true" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="Hard" Nullable="true" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Type="String" Name="System" Nullable="true" MaxLength="64" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Status" Nullable="true" DefaultValue="0" />
+          <Property Type="Decimal" Name="Money" Nullable="true" DefaultValue="0" Precision="18" Scale="0" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Delflag" Nullable="true" DefaultValue="0" />
+          <NavigationProperty Name="Machineroom" Relationship="DataModel.MachineroomComputerinfo" FromRole="Computerinfo" ToRole="Machineroom" />
+          <Property Type="Int32" Name="MachineroomID" Nullable="false" />
+          </EntityType>
+        <Association Name="MachineroomComputerinfo">
+          <End Type="DataModel.Machineroom" Role="Machineroom" Multiplicity="1" />
+          <End Type="DataModel.Computerinfo" Role="Computerinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Machineroom">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Computerinfo">
+              <PropertyRef Name="MachineroomID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Reservation">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Rdate" Nullable="false" Precision="3" />
+          <Property Type="DateTime" Name="Sdate" Nullable="false" Precision="3" />
+          <Property Type="Int32" Name="DateFlag" Nullable="false" />
+          <Property Type="DateTime" Name="Edate" Nullable="false" Precision="3" />
+          <Property Type="String" Name="Useinfo" Nullable="true" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Type="Decimal" Name="Money" Nullable="true" DefaultValue="0" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="Status" Nullable="false" DefaultValue="0" />
+          <Property Type="String" Name="Other" Nullable="true" MaxLength="200" Unicode="true" FixedLength="false" />
+          <Property Type="Int32" Name="Delflag" Nullable="true" DefaultValue="0" />
+          <NavigationProperty Name="Computerinfo" Relationship="DataModel.ComputerinfoReservation" FromRole="Reservation" ToRole="Computerinfo" />
+          <Property Type="Int32" Name="ComputerinfoID" Nullable="false" />
+          <NavigationProperty Name="Userinfo" Relationship="DataModel.UserinfoReservation" FromRole="Reservation" ToRole="Userinfo" />
+          <Property Type="Int32" Name="UserinfoID" Nullable="false" />
+        </EntityType>
+        <Association Name="ComputerinfoReservation">
+          <End Type="DataModel.Computerinfo" Role="Computerinfo" Multiplicity="1" />
+          <End Type="DataModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Computerinfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="ComputerinfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserinfoNewsinfo">
+          <End Type="DataModel.Userinfo" Role="Userinfo" Multiplicity="1" />
+          <End Type="DataModel.Newsinfo" Role="Newsinfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userinfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Newsinfo">
+              <PropertyRef Name="UserinfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserinfoMachineroom">
+          <End Type="DataModel.Userinfo" Role="Userinfo" Multiplicity="1" />
+          <End Type="DataModel.Machineroom" Role="Machineroom" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userinfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Machineroom">
+              <PropertyRef Name="UserinfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserinfoReservation">
+          <End Type="DataModel.Userinfo" Role="Userinfo" Multiplicity="1" />
+          <End Type="DataModel.Reservation" Role="Reservation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userinfo">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Reservation">
+              <PropertyRef Name="UserinfoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataModelContainer">
+    <EntitySetMapping Name="Userinfo">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Userinfo)">
+        <MappingFragment StoreEntitySet="Userinfo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Uname" ColumnName="Uname" />
+          <ScalarProperty Name="Pwd" ColumnName="Pwd" />
+          <ScalarProperty Name="Logindate" ColumnName="Logindate" />
+          <ScalarProperty Name="Signdate" ColumnName="Signdate" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Phone" ColumnName="Phone" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="Delflag" ColumnName="Delflag" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Newsinfo">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Newsinfo)">
+        <MappingFragment StoreEntitySet="Newsinfo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Inputdate" ColumnName="Inputdate" />
+          <ScalarProperty Name="Showtime" ColumnName="Showtime" />
+          <ScalarProperty Name="Endtime" ColumnName="Endtime" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="Delflag" ColumnName="Delflag" />
+          <ScalarProperty Name="UserinfoID" ColumnName="UserinfoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Machineroom">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Machineroom)">
+        <MappingFragment StoreEntitySet="Machineroom">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Area" ColumnName="Area" />
+          <ScalarProperty Name="Crow" ColumnName="Crow" />
+          <ScalarProperty Name="Ccol" ColumnName="Ccol" />
+          <ScalarProperty Name="IPinfo" ColumnName="IPinfo" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Delflag" ColumnName="Delflag" />
+          <ScalarProperty Name="UserinfoID" ColumnName="UserinfoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Computerinfo">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Computerinfo)">
+        <MappingFragment StoreEntitySet="Computerinfo">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="Row" ColumnName="Row" />
+          <ScalarProperty Name="Col" ColumnName="Col" />
+          <ScalarProperty Name="RN" ColumnName="RN" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Facturedate" ColumnName="Facturedate" />
+          <ScalarProperty Name="MAC" ColumnName="MAC" />
+          <ScalarProperty Name="IP" ColumnName="IP" />
+          <ScalarProperty Name="CPU" ColumnName="CPU" />
+          <ScalarProperty Name="Memory" ColumnName="Memory" />
+          <ScalarProperty Name="Hard" ColumnName="Hard" />
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Money" ColumnName="Money" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="Delflag" ColumnName="Delflag" />
+          <ScalarProperty Name="MachineroomID" ColumnName="MachineroomID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Reservation">
+      <EntityTypeMapping TypeName="IsTypeOf(DataModel.Reservation)">
+        <MappingFragment StoreEntitySet="Reservation">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Rdate" ColumnName="Rdate" />
+          <ScalarProperty Name="Sdate" ColumnName="Sdate" />
+          <ScalarProperty Name="DateFlag" ColumnName="DateFlag" />
+          <ScalarProperty Name="Edate" ColumnName="Edate" />
+          <ScalarProperty Name="Useinfo" ColumnName="Useinfo" />
+          <ScalarProperty Name="Money" ColumnName="Money" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Other" ColumnName="Other" />
+          <ScalarProperty Name="Delflag" ColumnName="Delflag" />
+          <ScalarProperty Name="ComputerinfoID" ColumnName="ComputerinfoID" />
+          <ScalarProperty Name="UserinfoID" ColumnName="UserinfoID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

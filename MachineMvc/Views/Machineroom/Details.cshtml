@@ -1,0 +1,119 @@
+﻿@model Model.Machineroom
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>机房详情</title>
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+        
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">机房号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Number
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">机房地址：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Address
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">机房名：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Name
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">电脑数量：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Count 台
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">IP网关：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.IPinfo
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">机房面积：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Area 平方米
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">每排：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Crow 台
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">每列：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Ccol 台
+		</div>
+	</div>
+    
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">管理员：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Userinfo.Uname
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">联系方式：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Userinfo.Phone
+		</div>
+	</div>
+
+	
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">备注：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			<textarea name="Other" cols="" rows="" class="textarea"   dragonfly="true" onKeyUp="$.Huitextarealength(this,200)" id="Other" readonly="true">@Model.Other</textarea>
+			
+		</div>
+	</div>
+	
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>

@@ -1,0 +1,74 @@
+﻿/*这里是自定义的样式表*/
+
+/*电脑预约样式*/
+.mycdiv1 {
+    position: relative;
+}
+
+.mycimg {
+    border-radius:4px;
+}
+
+.mycspan {
+    position: absolute;
+    width: 100%;
+    top: 18%;
+    left: 0px;
+    text-align: center;
+    font-size: 16px;
+    font-weight:bold;
+}
+
+.mycdiv2 {
+    margin-top:3px;
+    text-align: center;
+}
+/*电脑预约样式*/
+
+
+
+
+/*分页样式*/
+.page{
+    list-style: none;
+}
+.page>li{
+    float: left;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.page a{
+    float: left;
+    padding: 5px 10px;
+    cursor: pointer;
+    text-decoration:none;  /*超链接无下划线*/
+}
+.page .pageItem{
+    border: solid thin #DDDDDD;
+    margin: 5px;
+}
+.page .pageItemActive{
+    border: solid thin #0099FF;
+    margin: 5px;
+    background-color: #0099FF;
+    color:white;
+}
+.page .pageItem:hover{
+    border: solid thin #0099FF;
+    background-color: #0099FF;
+    color:white;
+}
+.page .pageItemDisable{
+    border: solid thin #DDDDDD;
+    margin: 5px;
+    background-color: #DDDDDD;
+}
+
+.page .pageIteminfo {
+    margin: 5px;
+}
+/*分页样式*/
+
+
+
+

@@ -1,0 +1,189 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/static/MyStyle.css"  />
+<!--[if IE 6]>
+<script type="text/javascript" src="~/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>电脑管理</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 电脑管理 <span class="c-gray en">&gt;</span> 电脑信息 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c" style="margin-bottom:15px"> 
+        <form id="searchform">
+            <input type="hidden" value="1" id="PageIndex" name="PageIndex">
+            <input type="hidden" value="5" id="PageSize" name="PageSize">
+            <input type="text" class="input-text" style="width:10%" placeholder="输入机房号查询" id="MNumber" name="MNumber" value="">
+		    <input type="text" class="input-text" style="width:10%" placeholder="输入编号查询" id="Number" name="Number" value="">
+            <input type="text" class="input-text" style="width:10%" placeholder="输入型号查询" id="Model" name="Model" value="">
+            <input type="text" class="input-text" style="width:10%" placeholder="输入IP查询" id="IP" name="IP" value="">
+		    <a class="btn btn-success radius" href='javascript:$("#PageIndex").val(1);pageajax();'><i class="Hui-iconfont">&#xe665;</i> 搜电脑</a>
+        </form>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray"> <span class="l">  <a class="btn btn-primary radius" href="javascript:;" onclick="admin_role_add('添加电脑信息','Create','800')"><i class="Hui-iconfont">&#xe600;</i> 添加电脑信息</a> </span> <span class="r">共有数据：<strong id="listcount">0</strong> 条</span> </div>
+	<table class="table table-border table-bordered table-hover table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="6">电脑信息管理
+                    <span style="font-size:10px;margin-left:20px;">每页显示：</span>
+                    <select id="pageSizeSelect" onchange="$('#PageIndex').val(1);$('#PageSize').val(this.value);pageajax();">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                    </select>
+				</th>
+                
+			</tr>
+			<tr class="text-c">
+                <th width="80">机房号</th>
+                <th width="80">电脑编号</th>
+                <th width="80">电脑型号</th>
+                <th width="80">处理器</th>
+				<th width="100">IP地址</th>
+				<th width="50">操作</th>
+			</tr>
+		</thead>
+		<tbody id="pagetbody">
+
+
+		</tbody>
+	</table>
+    <div style="margin-top:10px;">
+       <ul class="page"  id="MyPage"></ul>
+    </div>
+    
+    
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/static/MyPage.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+
+<script type="text/javascript">
+
+    //每页数量，当前页
+    function pageajax() {
+        var tbody = window.document.getElementById("pagetbody");
+        var sumdata = window.document.getElementById("listcount");
+        var nowindex = window.document.getElementById("PageIndex");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/TeacherComputerinfo/Index",//url
+            data: $('#searchform').serialize(),
+            success: function (data) {
+                var str = "";
+                var Computerlist = data.Item1;
+
+                for (var i = 0; i < Computerlist.length; i++) {
+                    str += "<tr class='text-c'>";
+                    str += "<td><a onclick=\"admin_role_edit('" + Computerlist[i].Machineroom.Number + "机房详情','/Machineroom/Details','" + Computerlist[i].Machineroom.ID + "')\"  >" + Computerlist[i].Machineroom.Number + "</a></td>";
+                    str += "<td><a onclick=\"admin_role_edit('" + Computerlist[i].Number + "电脑详情','/Computerinfo/Details','" + Computerlist[i].ID + "')\"  >" + Computerlist[i].Number + "</a></td>";
+                    str += "<td>" + Computerlist[i].Model + "</td>";
+                    str += "<td>" + Computerlist[i].CPU + "</td>";
+                    str += "<td>" + Computerlist[i].IP + "</td>";
+
+                    str += "<td class='f-14'>";
+                    str += "<a title=\"编辑\" onclick=\"admin_role_edit('" + Computerlist[i].Number + "  电脑编辑','/TeacherComputerinfo/Edit','" + Computerlist[i].ID + "')\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6df;</i></a>";
+
+                    str += "<a title=\"删除\" onclick=\"admin_role_del(this,'" + Computerlist[i].ID + "')\" class=\"ml-5\" style=\"text-decoration:none\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>";
+                    str += "</td>";
+                    str += "</tr>";
+                }
+                tbody.innerHTML = str;
+                sumdata.innerText = data.Item2.TotalItems;
+                nowindex.value = data.Item2.PageIndex;
+                initMypage(data.Item2.TotalItems, data.Item2.PageIndex, data.Item2.PageSize);
+
+            },
+            error: function (err) {
+
+            }
+
+        });
+
+    }
+
+
+    var GG = {
+        "kk": function (pageindex) {
+            var indexkey = $('#PageIndex');
+            var nowindex = indexkey.val();
+            if (nowindex != pageindex) {
+                indexkey.val(pageindex);
+                pageajax();
+            }
+        }
+    }
+
+
+    function initMypage(count, current, pagecount) {
+        //总数量，当前显示页，每页显示数，输出当前页函数
+        $("#MyPage").initPage(count, current, pagecount, GG.kk);
+    }
+
+    $(function () {
+        pageajax();
+    });
+
+
+
+
+
+
+
+    /*添加*/
+    function admin_role_add(title, url, w, h) {
+        layer_show(title, url, w, h);
+    }
+    /*编辑*/
+    function admin_role_edit(title, url, id, w, h) {
+        layer_show(title, url + "/" + id, w, h);
+    }
+
+    /*删除*/
+    function admin_role_del(obj, id) {
+        layer.confirm('电脑删除须谨慎，确认要删除吗？', function (index) {
+            $.ajax({
+                type: 'POST',
+                url: '/TeacherComputerinfo/Delete',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!', { icon: 1, time: 1000 });
+                },
+                error: function (data) {
+                    console.log(data.msg);
+                },
+            });
+        });
+    }
+</script>
+</body>
+</html>

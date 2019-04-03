@@ -1,0 +1,144 @@
+﻿@model Model.Computerinfo
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>电脑信息- 电脑信息查看</title>
+</head>
+<body>
+<article class="page-container">
+	<form class="form form-horizontal" id="form-admin-add">
+        
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">电脑编号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Number
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">处理器型号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.CPU
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">内存信息：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Memory
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">硬盘信息：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Hard
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">电脑品牌：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Brand
+		</div>
+	</div>
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">具体型号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Model
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">操作系统：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.System
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">生产日期：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            @Model.Facturedate
+			
+		</div>
+	</div>
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">费用(元/时)：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			@Model.Money 元/小时
+		</div>
+	</div>
+
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">所在排：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            第 @Model.Row 排
+		</div>
+	</div>
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">所在列：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+            第 @Model.Col 列
+		</div>
+	</div>
+    
+
+    <div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">所属机房号：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			@Model.Machineroom.Number (机房名：@Model.Machineroom.Name )
+		</div>
+	</div>
+
+	<div class="row cl">
+		<label class="form-label col-xs-4 col-sm-3">备注：</label>
+		<div class="formControls col-xs-8 col-sm-9">
+			@Model.Other
+			
+		</div>
+	</div>
+	</form>
+</article>
+
+<!--_footer 作为公共模版分离出去--> 
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+
+<!--/请在上方写此页面业务相关的脚本-->
+</body>
+</html>
