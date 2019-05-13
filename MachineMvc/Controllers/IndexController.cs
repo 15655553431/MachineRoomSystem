@@ -36,6 +36,7 @@ namespace MachineMvc.Controllers
             milist.Add(new Meansinfo(12, "等待审核", "/Reservation/AdminResAwait", 2, 11, 1, "&#xe616;"));
             milist.Add(new Meansinfo(13, "审核通过", "/Reservation/AdminResPassed", 2, 11, 1, "&#xe616;"));
             milist.Add(new Meansinfo(14, "审核历史", "/Reservation/AdminResHistory", 2, 11, 1, "&#xe616;"));
+            milist.Add(new Meansinfo(14, "预约统计", "/Reservation/AdminResChart", 2, 11, 1, "&#xe616;"));
 
             milist.Add(new Meansinfo(15, "我的桌面", "/Reservation/ShowLayout", 0, -1, 1, "&#xe616;"));
 

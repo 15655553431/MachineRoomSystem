@@ -96,6 +96,17 @@ namespace MachineMvc.Controllers
         }
 
 
+        public ActionResult Delete(int id = 0)
+        {
+            Newsinfo newsinfo = newsinfoService.GetEntities(u => (u.Delflag == (int)DelflagEnum.Normal && u.ID == id)).First();
+            if (newsinfoService.Delete(newsinfo))
+            {
+                return Json("ok");
+            }
+            return HttpNotFound();
+        }
+
+
         public ActionResult Edit(int id = 0)
         {
             Newsinfo newsinfo = newsinfoService.GetEntities(u => (u.Delflag == (int)DelflagEnum.Normal && u.ID == id)).First();

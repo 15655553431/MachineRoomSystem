@@ -9,6 +9,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using Common.Lambda;
 
 namespace MachineMvc.Controllers
 {
@@ -129,6 +130,112 @@ namespace MachineMvc.Controllers
         }
 
 
+        [HttpPost]
+        public ActionResult Count30()
+        {
+
+            string userLoginId = Request.Cookies["userLoginId"].Value.ToString();
+            Userinfo userInfo = CacheHelper.GetCache(userLoginId) as Userinfo;
+
+            DateTime dt = DateTime.Now.AddYears(-1);
+            string rstr = "";
+
+            if (userInfo != null)
+            {
+                //预约数量
+                //从缓存里面拿到userLoginId信息
+
+                int c1 = reservationService.GetEntities(u => u.UserinfoID == userInfo.ID && u.Rdate > dt).Count();
+
+                rstr += c1.ToString() + ";";
+
+                //通过并使用
+                int c2 = reservationService.GetEntities(u => u.UserinfoID == userInfo.ID && u.Rdate > dt&&u.Status==(int)StatusEnum.Over).Count();
+
+                rstr += c2.ToString() + ";";
+
+
+                //没通过
+
+                int c3 = reservationService.GetEntities(u => u.UserinfoID == userInfo.ID && u.Rdate > dt && (u.Status == (int)StatusEnum.Block || u.Status == (int)StatusEnum.Normal)).Count();
+
+                rstr += c3.ToString()+ ";";
+
+
+
+                //通过未使用
+                rstr += (c1 - c2 - c3).ToString();
+
+                
+
+            }
+
+            return Json(rstr);
+        }
+
+
+
+        /// <summary>
+        /// 显示预约统计
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult AdminResChart()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AdminResChart(string number = "", string datetime = "", int mid = 0)
+        {
+            string rstr = "";
+
+
+            Expression<Func<Reservation, bool>> wherelambda = u => u.Computerinfo.MachineroomID == mid;
+
+            if (!string.IsNullOrWhiteSpace(number))
+            {
+                wherelambda = wherelambda.And(u => u.Userinfo.Number.Contains(number));
+            }
+
+            if (!string.IsNullOrWhiteSpace(datetime))
+            {
+                DateTime dts = Convert.ToDateTime(datetime.Substring(0, 19));
+                DateTime dte = Convert.ToDateTime(datetime.Substring(22, 19));
+                wherelambda = wherelambda.And(u => u.Rdate >= dts && u.Rdate <= dte);
+            }
+
+
+            //预约数量
+
+            int c1 = reservationService.GetEntities(wherelambda).Count();
+
+            rstr += c1.ToString() + ";";
+
+            //通过并使用
+            Expression<Func<Reservation, bool>> wherelambda2 = wherelambda.And(u => u.Status == (int)StatusEnum.Over);
+            int c2 = reservationService.GetEntities(wherelambda2).Count();
+
+            rstr += c2.ToString() + ";";
+
+
+            //没通过
+            Expression<Func<Reservation, bool>> wherelambda3 = wherelambda.And(u => (u.Status == (int)StatusEnum.Block || u.Status == (int)StatusEnum.Normal));
+            int c3 = reservationService.GetEntities(wherelambda3).Count();
+
+            rstr += c3.ToString() + ";";
+
+
+
+            //通过未使用
+            rstr += (c1 - c2 - c3).ToString();
+
+
+            return Json(rstr);
+        }
+
+
+
+
         /// <summary>
         /// 根据预约信息，增加预约记录。预约成功返回ok，错误返回err
         /// </summary>
@@ -168,6 +275,10 @@ namespace MachineMvc.Controllers
             //查询该机房是否有预约信息
             Computerinfo ci = computerinfoService.GetEntities(u => u.ID == id).FirstOrDefault();
             Computerinfo ciall = computerinfoService.GetEntities(u => u.MachineroomID == ci.MachineroomID && u.Col == 0 && u.Row == 0 && u.Status == (int)StatusEnum.Over).FirstOrDefault();
+            if (ciall == null)
+            {
+                ciall = new Computerinfo();
+            }
             List<Reservation> reslist = reservationService.GetEntities(u => (u.Delflag == (int)DelflagEnum.Normal && (u.ComputerinfoID == id || u.ComputerinfoID == ciall.ID) && u.Sdate == date && u.Status != (int)StatusEnum.Block)).ToList();
             List<string> reslut = new List<string>();
             if (reslist.Where(u => u.DateFlag == (int)DateFlagEnum.Morning).Count() == 0)

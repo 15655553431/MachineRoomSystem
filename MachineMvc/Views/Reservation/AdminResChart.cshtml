@@ -1,0 +1,170 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<!--[if lt IE 9]>
+<script type="text/javascript" src="~/lib/html5shiv.js"></script>
+<script type="text/javascript" src="~/lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="~/static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="~/lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="~/static/h-ui.admin/css/style.css" />
+<link rel="stylesheet" type="text/css" href="~/static/MyStyle.css"  />
+    <link href="~/lib/layui/css/layui.css" rel="stylesheet" />
+<!--[if IE 6]>
+<script type="text/javascript" src="~/lib/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<title>预约管理 预约统计</title>
+</head>
+<body>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 预约管理 <span class="c-gray en">&gt;</span> 预约统计 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+<div class="page-container">
+    <div class="text-c" style="margin-bottom:15px"> 
+        <form id="searchform">
+            <input type="text" class="input-text" style="width:15%" placeholder="工号查询" id="Number" name="Number" value="">
+
+           
+		    <input type="text" class="input-text" style="width:28%" placeholder="统计范围" id="datetime" name="datetime" value="">
+
+            <select class="input-text"  style="width:20%" id="mid" name="mid">
+                
+			</select>
+            
+		    <a class="btn btn-success radius" href='javascript:countchart();'><i class="Hui-iconfont">&#xe665;</i> 统计</a>
+        </form>
+	</div>
+	<div class="cl pd-5 bg-1 bk-gray">
+      </div>
+	<table class="table table-border table-bordered table-hover table-bg">
+		<thead>
+			<tr>
+				<th scope="col" colspan="4">预约统计
+                   
+				</th>
+                
+			</tr>
+			<tr class="text-c">
+                <th width="100">预约次数</th>
+                <th width="100">通过并使用</th>
+                <th width="100">未通过次数</th>
+                <th width="100">通过未使用</th>
+			</tr>
+		</thead>
+		<tbody id="tbodycount">
+
+
+		</tbody>
+	</table>
+    <div style="margin-top:10px;">
+       <ul class="page"  id="MyPage"></ul>
+    </div>
+    
+    
+</div>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="~/lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="~/static/h-ui/js/H-ui.min.js"></script> 
+<script type="text/javascript" src="~/static/h-ui.admin/js/H-ui.admin.js"></script> <!--/_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="~/static/MyPage.js"></script>
+    <script src="~/lib/layui/layui.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+
+<script type="text/javascript">
+
+    layui.use('laydate', function () {
+        var laydate = layui.laydate;
+
+        //日期时间范围选择
+        laydate.render({
+            elem: '#datetime'
+          , type: 'datetime'
+          , range: true //或 range: '~' 来自定义分割字符
+        });
+    });
+
+    
+    function getselect() {
+        var select = window.document.getElementById("mid");
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Machineroom/Getmachineroom",//url
+            data: { Search: "" },
+            success: function (data) {
+                select.options.length = 0;
+                for (var i = 0; data.length; i++) {
+                    select.add(new Option(data[i].Number + " ->(机房名：" + data[i].Name + ")", data[i].ID));
+                }
+            },
+            error: function (data) {
+            }
+
+        });
+    }
+
+
+
+    function countchart() {
+
+        var tbody = window.document.getElementById("tbodycount");
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Reservation/AdminResChart",//url
+            data: $('#searchform').serialize(),
+            success: function (data) {
+                var str = "";
+
+                str += "<tr class='text-c'>";
+
+                var temp = data.split(';');
+
+
+                for (var i = 0; i < temp.length; i++) {
+
+                    str += "<td>";
+                    str += temp[i];
+                    str += "</td>";
+
+                }
+
+
+                str += "</tr>";
+
+                tbody.innerHTML = str;
+
+            },
+            error: function (err) {
+
+            }
+
+        });
+
+
+    }
+
+    $(function () {
+        getselect();
+    });
+
+
+
+   
+</script>
+</body>
+</html>

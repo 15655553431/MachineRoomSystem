@@ -46,6 +46,7 @@
     <Compile Include="Cache\CacheHelper.cs" />
     <Compile Include="Cache\HttpRuntimeCacheWriter.cs" />
     <Compile Include="Cache\ICacheWriter.cs" />
+    <Compile Include="Lambda\LambdaHelper.cs" />
     <Compile Include="Md5\Md5Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VCode\VCodeHelper.cs" />

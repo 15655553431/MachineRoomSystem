@@ -28,6 +28,9 @@
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 预约管理 <span class="c-gray en">&gt;</span> 审核历史 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+
+    
+
 <div class="page-container">
     <div class="text-c" style="margin-bottom:15px"> 
         <form id="searchform">
@@ -39,9 +42,46 @@
 		    <a class="btn btn-success radius" href='javascript:$("#PageIndex").val(1);pageajax();'><i class="Hui-iconfont">&#xe665;</i> 查预约</a>
         </form>
 	</div>
+
+
+    <div>
+        <table class="table table-border table-bordered table-hover table-bg" style="margin:auto;width:50%;">
+		<thead>
+			<tr class="text-c">
+                
+                <th colspan="7">近1年统计</th>
+                
+                
+			</tr>
+			<tr class="text-c">
+                
+                <th width="100">预约次数</th>
+                <th width="100">通过并使用</th>
+                <th width="100">未通过次数</th>
+                <th width="100">通过未使用</th>
+                
+			</tr>
+		</thead>
+		<tbody id="count30">
+            @*<tr class="text-c">
+                <td>100</td>
+                <td>50</td>
+                <td>30</td>
+                <t0<d>2/td>
+            </tr>*@
+
+		</tbody>
+	</table>
+    </div>
+
+
 	<div class="cl pd-5 bg-1 bk-gray"> <span class="l">  
          
 	                                   </span> <span class="r">共有数据：<strong id="listcount">0</strong> 条</span> </div>
+
+    
+
+
 	<table class="table table-border table-bordered table-hover table-bg">
 		<thead>
 			<tr>
@@ -86,6 +126,52 @@
 <!--请在下方写此页面业务相关的脚本-->
 
 <script type="text/javascript">
+
+
+    function count30ajax() {
+
+        var tbody = window.document.getElementById("count30");
+
+        $.ajax({
+            //几个参数需要注意一下
+            type: "POST",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/Reservation/Count30",//url
+            data: $('#searchform').serialize(),
+            success: function (data) {
+                var str = "";
+
+                str += "<tr class='text-c'>";
+
+                var temp = data.split(';');
+
+
+                for (var i = 0; i < temp.length; i++) {
+
+                    str += "<td>";
+                    str += temp[i];
+                    str += "</td>";
+
+                }
+
+
+                str += "</tr>";
+
+
+
+                tbody.innerHTML = str;
+
+
+
+            },
+            error: function (err) {
+
+            }
+
+        });
+
+
+    }
 
     //每页数量，当前页
     function pageajax() {
@@ -159,6 +245,7 @@
 
     $(function () {
         pageajax();
+        count30ajax();
     });
 
 

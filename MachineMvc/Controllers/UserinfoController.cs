@@ -259,7 +259,7 @@ namespace MachineMvc.Controllers
         public ActionResult GetUserinfo(Userinfo ui)
         {
             ui.Uname = String.IsNullOrWhiteSpace(ui.Uname) ? "" : ui.Uname;
-            var userinfolist = userinfoService.GetEntities(u => (u.Delflag == (int)DelflagEnum.Normal && u.Uname != null && u.Uname.Contains(ui.Uname) && u.Type != (int)TypeEnum.Student)).OrderBy(u => u.ID).Take(12);
+            var userinfolist = userinfoService.GetEntities(u => (u.Delflag == (int)DelflagEnum.Normal && u.Uname != null && u.Uname.Contains(ui.Uname) && u.Type == (int)TypeEnum.Administrator)).OrderBy(u => u.ID).Take(12);
             return Json(userinfolist);
         }
 
